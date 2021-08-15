@@ -33,5 +33,15 @@ namespace ParkingAssistant
             airplane.ArrivalDateTime = arrival;
             return stand.StandNumber;
         }
+
+        public int Empty()
+        {
+            return Stands.Count(a => a.TailNumber == string.Empty);
+        }
+
+        public int Empty(PlaneSize size)
+        {
+            return Stands.Count(a => a.PlaneSize == size && a.TailNumber == string.Empty);
+        }
     }
 }
