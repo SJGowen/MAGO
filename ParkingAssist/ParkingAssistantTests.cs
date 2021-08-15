@@ -1,17 +1,20 @@
+using ParkingAssistant;
 using System;
 using Xunit;
+
 
 namespace ParkingAssist
 {
     public class ParkingAssistantTests
     {
         [Fact]
-        public void ParkPropInEmptyAirportAllocatedStand00()
+        public void ParkPropInEmptyAirportAllocatedStand0()
         {
-            Stands stands = new Stands(25, 50, 25);
-            Airplane airplane = new Airplane("TST-0001", "KLM", "Prop", 180);
-            string stand = airplane.Park(stands);
-            Assert.Equal("00", stand);
+            AircraftStands stands = new(25, 50, 25);
+            Airplane airplane = new("TST-0001", "KLM", PlaneSize.Prop, 180);
+            int stand = stands.Park(airplane, DateTime.Now);
+            Assert.Equal(0, stand);
         }
     }
 }
+
