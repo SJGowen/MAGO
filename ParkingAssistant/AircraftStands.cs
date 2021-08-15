@@ -56,5 +56,12 @@ namespace ParkingAssistant
         {
             return Stands.Count(a => a.PlaneSize == size && a.TailNumber == string.Empty);
         }
+
+        public void Departure(Airplane airplane, DateTime departure)
+        {
+            Stand stand = Stands.First(a => a.TailNumber == airplane.TailNumber);
+            stand.TailNumber = string.Empty;
+            airplane.DepartureDateTime = departure;
+        }
     }
 }

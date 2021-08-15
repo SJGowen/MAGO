@@ -85,6 +85,17 @@ namespace ParkingAssist
             var exception = Assert.Throws<StandSpaceException>(() => stands.Arrival(error, DateTime.Now));
             Assert.Equal("The Airport has no more allocated space for Jumbo Aircraft", exception.Message);
         }
+
+        [Fact]
+        public void ArrivalTheDepartureOfPlaneLeavesAirportEmpty()
+        {
+            AircraftStands stands = new(25, 50, 25);
+            Airplane airplane = new("TST-0001", "KLM", PlaneSize.Prop, 180);
+            int stand = stands.Arrival(airplane, DateTime.Now);
+            Assert.Equal(0, stand);
+            stands.Departure(airplane, DateTime.Now);
+            Assert.Equal(100, stands.Empty());
+        }
     }
 }
 
