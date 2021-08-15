@@ -24,6 +24,15 @@ namespace ParkingAssist
             int stand = stands.Park(airplane, DateTime.Now);
             Assert.Equal(25, stand);
         }
+
+        [Fact]
+        public void ParkJumboInEmptyAirportAllocatedStand75()
+        {
+            AircraftStands stands = new(25, 50, 25);
+            Airplane airplane = new("TST-0003", "BAW", PlaneSize.Jumbo, 210);
+            int stand = stands.Park(airplane, DateTime.Now);
+            Assert.Equal(75, stand);
+        }
     }
 }
 
