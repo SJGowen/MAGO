@@ -66,6 +66,25 @@ namespace ParkingAssist
             Assert.Equal(24, stands.Empty(PlaneSize.Jumbo));
             Assert.Equal(49, stands.Empty());
         }
+
+        [Fact]
+        public void Park26JumboInEmptyAirportAllocatedStand75to99AndThrowsAnException()
+        {
+            AircraftStands stands = new(25, 50, 25);
+            for (int i = 76; i <= 100; i++)
+            {
+                Airplane airplane = new($"TST-{i:D4}", "BAW", PlaneSize.Jumbo, 210);
+                int stand = stands.Arrival(airplane, DateTime.Now);
+                Assert.Equal(i - 1, stand);
+            }
+
+            Assert.Equal(0, stands.Empty(PlaneSize.Jumbo));
+            Assert.Equal(75, stands.Empty());
+
+            Airplane error = new("TST-0100", "BAW", PlaneSize.Jumbo, 210);
+            var exception = Assert.Throws<StandSpaceException>(() => stands.Arrival(error, DateTime.Now));
+            Assert.Equal("The Airport has no more allocated space for Jumbo Aircraft", exception.Message);
+        }
     }
 }
 
