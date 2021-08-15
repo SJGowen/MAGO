@@ -49,6 +49,23 @@ namespace ParkingAssist
             Assert.Equal(49, stands.Empty(PlaneSize.Jet));
             Assert.Equal(74, stands.Empty());
         }
+
+        [Fact]
+        public void Park51JetsInEmptyAirportAllocatedStand26to76()
+        {
+            AircraftStands stands = new(25, 50, 25);
+            for (int i = 26; i <= 76; i++)
+            {
+                Airplane airplane = new($"TST-{i:D4}", "RYA", PlaneSize.Jet, 180);
+                int stand = stands.Arrival(airplane, DateTime.Now);
+                Assert.Equal(i - 1, stand);
+            }
+
+            Assert.Equal(25, stands.Empty(PlaneSize.Prop));
+            Assert.Equal(0, stands.Empty(PlaneSize.Jet));
+            Assert.Equal(24, stands.Empty(PlaneSize.Jumbo));
+            Assert.Equal(49, stands.Empty());
+        }
     }
 }
 
