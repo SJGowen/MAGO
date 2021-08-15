@@ -26,7 +26,7 @@ namespace ParkingAssistant
             }
         }
 
-        public int Park(Airplane airplane, DateTime arrival)
+        public int Arrival(Airplane airplane, DateTime arrival)
         {
             Stand stand = Stands.First(a => a.PlaneSize >= airplane.PlaneSize && a.TailNumber == string.Empty);
             stand.TailNumber = airplane.TailNumber;

@@ -12,7 +12,7 @@ namespace ParkingAssist
         {
             AircraftStands stands = new(25, 50, 25);
             Airplane airplane = new("TST-0001", "KLM", PlaneSize.Prop, 180);
-            int stand = stands.Park(airplane, DateTime.Now);
+            int stand = stands.Arrival(airplane, DateTime.Now);
             Assert.Equal(0, stand);
         }
 
@@ -21,7 +21,7 @@ namespace ParkingAssist
         {
             AircraftStands stands = new(25, 50, 25);
             Airplane airplane = new("TST-0002", "RYA", PlaneSize.Jet, 180);
-            int stand = stands.Park(airplane, DateTime.Now);
+            int stand = stands.Arrival(airplane, DateTime.Now);
             Assert.Equal(25, stand);
         }
 
@@ -30,7 +30,7 @@ namespace ParkingAssist
         {
             AircraftStands stands = new(25, 50, 25);
             Airplane airplane = new("TST-0003", "BAW", PlaneSize.Jumbo, 210);
-            int stand = stands.Park(airplane, DateTime.Now);
+            int stand = stands.Arrival(airplane, DateTime.Now);
             Assert.Equal(75, stand);
         }
     }
