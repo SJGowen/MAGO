@@ -59,9 +59,22 @@ namespace ParkingAssistant
 
         public void Departure(Airplane airplane, DateTime departure)
         {
-            Stand stand = Stands.First(a => a.TailNumber == airplane.TailNumber);
-            stand.TailNumber = string.Empty;
-            airplane.DepartureDateTime = departure;
+            try
+            {
+                Stand stand = Stands.First(a => a.TailNumber == airplane.TailNumber);
+                stand.TailNumber = string.Empty;
+                airplane.DepartureDateTime = departure;
+            }
+            catch (InvalidOperationException e)
+            {
+                if (e.Message == "Sequence contains no matching element")
+                {
+
+                    throw new AirplaneNotFoundException($"The Aircraft with Tail Number '{airplane.TailNumber}' can not be found");
+                }
+
+                throw;
+            }
         }
     }
 }

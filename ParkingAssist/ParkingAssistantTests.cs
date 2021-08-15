@@ -96,6 +96,20 @@ namespace ParkingAssist
             stands.Departure(airplane, DateTime.Now);
             Assert.Equal(100, stands.Empty());
         }
+
+        [Fact]
+        public void ArrivalTheDepartureOfPlaneTwiceThrowsAnException()
+        {
+            AircraftStands stands = new(25, 50, 25);
+            Airplane airplane = new("TST-0001", "KLM", PlaneSize.Prop, 180);
+            int stand = stands.Arrival(airplane, DateTime.Now);
+            Assert.Equal(0, stand);
+            stands.Departure(airplane, DateTime.Now);
+            Assert.Equal(100, stands.Empty());
+
+            var exception = Assert.Throws<AirplaneNotFoundException>(() => stands.Departure(airplane, DateTime.Now));
+            Assert.Equal("The Aircraft with Tail Number 'TST-0001' can not be found", exception.Message);
+        }
     }
 }
 
