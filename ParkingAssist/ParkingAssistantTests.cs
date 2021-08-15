@@ -110,6 +110,48 @@ namespace ParkingAssist
             var exception = Assert.Throws<AircraftNotFoundException>(() => stands.Departure(airplane, DateTime.Now));
             Assert.Equal("The Aircraft with Tail Number 'TST-0001' can not be found", exception.Message);
         }
+
+        [Fact]
+        public void RecommendStandInEmptyAirportForJetRecommends25()
+        {
+            AircraftStands stands = new(25, 50, 25);
+            Airplane airplane = new($"TST-0002", "RYA", PlaneSize.Jet, 180);
+            int recommendedStand = stands.RecommendParkingStand(airplane);
+            Assert.Equal(25, recommendedStand);
+        }
+
+        [Fact]
+        public void ParkJetInStand50OfEmptyAirportSucceedsWithJetAllocated50()
+        {
+            AircraftStands stands = new(25, 50, 25);
+            Airplane airplane = new($"TST-0002", "RYA", PlaneSize.Jet, 180);
+            int standNumber = stands.Arrival(airplane, DateTime.Now, 50);
+            Assert.Equal(50, standNumber);
+        }
+
+        [Fact]
+        public void TryToParkTwoJetsInStand50OfAirportThrowsAnException()
+        {
+            AircraftStands stands = new(25, 50, 25);
+            Airplane airplane2 = new($"TST-0002", "RYA", PlaneSize.Jet, 180);
+            int standNumber = stands.Arrival(airplane2, DateTime.Now, 50);
+            Assert.Equal(50, standNumber);
+
+
+            Airplane airplane3 = new($"TST-0003", "RYA", PlaneSize.Jet, 180);
+            var exception = Assert.Throws<StandSpaceException>(() => stands.Arrival(airplane3, DateTime.Now, 50));
+            Assert.Equal("Stand 50 is occupied by Aircraft with Tail Number 'TST-0002'", exception.Message);
+        }
+
+        [Fact]
+        public void TryToParkJetInStand0OfEmptyAirportThrowsAnException()
+        {
+            AircraftStands stands = new(25, 50, 25);
+            Airplane airplane = new($"TST-0002", "RYA", PlaneSize.Jet, 180);
+
+            var exception = Assert.Throws<StandSpaceException>(() => stands.Arrival(airplane, DateTime.Now, 0));
+            Assert.Equal("Stand 0 is too small for a Jet Aircraft", exception.Message);
+        }
     }
 }
 

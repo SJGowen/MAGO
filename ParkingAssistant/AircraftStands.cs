@@ -26,11 +26,37 @@ namespace ParkingAssistant
             }
         }
 
-        public int Arrival(Airplane airplane, DateTime arrival)
+        public int RecommendParkingStand(Airplane airplane)
         {
             try
             {
                 Stand stand = Stands.First(a => a.PlaneSize >= airplane.PlaneSize && a.TailNumber == string.Empty);
+                return stand.StandNumber;
+            }
+            catch (InvalidOperationException e)
+            {
+                if (e.Message == "Sequence contains no matching element")
+                {
+                    throw new StandSpaceException($"The Airport has no more allocated space for {airplane.PlaneSize} Aircraft");
+                }
+
+                throw;
+            }
+        }
+
+        public int Arrival(Airplane airplane, DateTime arrival, int standNumber = -1)
+        {
+            try
+            {
+                Stand stand;
+                if (standNumber == -1)
+                {
+                    stand = Stands.First(s => s.PlaneSize >= airplane.PlaneSize && s.TailNumber == string.Empty);
+                }
+                else
+                {
+                    stand = Stands.First(s => s.StandNumber == standNumber && s.PlaneSize >= airplane.PlaneSize && s.TailNumber == string.Empty);
+                }
                 stand.TailNumber = airplane.TailNumber;
                 airplane.ArrivalDateTime = arrival;
                 return stand.StandNumber;
@@ -39,8 +65,22 @@ namespace ParkingAssistant
             {
                 if (e.Message == "Sequence contains no matching element")
                 {
-
-                    throw new StandSpaceException($"The Airport has no more allocated space for {airplane.PlaneSize} Aircraft");
+                    if (standNumber == -1 || Empty(airplane.PlaneSize) == 0)
+                    {
+                        throw new StandSpaceException($"The Airport has no more allocated space for {airplane.PlaneSize} Aircraft");
+                    }
+                    else
+                    {
+                        if (Stands[standNumber].TailNumber != "")
+                        {
+                            throw new StandSpaceException($"Stand {standNumber} is occupied by Aircraft with Tail Number '{Stands[standNumber].TailNumber}'");
+                        }
+                        else 
+                        {
+                            throw new StandSpaceException($"Stand {standNumber} is too small for a {airplane.PlaneSize} Aircraft");
+                        }
+                    }
+                    
                 }
 
                 throw;
