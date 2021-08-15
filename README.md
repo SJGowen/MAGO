@@ -7,7 +7,7 @@ As an airplane parking assistant, so that I can efficiently manage parking slots
 
 Notes
 
-*	A plane may be parked for a few hours or a few days. (ArrivalDateTime & DepartureDateTime recorded for comparison with the GroundTimeEstimate)
+*	A plane may be parked for a few hours or a few days. (ArrivalDateTime & DepartureDateTime recorded for comparison with the GroundTimeEstimate recorded in Minutes. When Stand is getting full, you can look for Aircraft with short GroudTimeEstimate's and park these Aircraft in a larger Stands)
 * There are 100 slots, but they are not of the same size,
   *	25 for Jumbos (A380, B747)
   *	50 for Jets (A330, B777)
