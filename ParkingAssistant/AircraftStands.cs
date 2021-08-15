@@ -70,7 +70,7 @@ namespace ParkingAssistant
                 if (e.Message == "Sequence contains no matching element")
                 {
 
-                    throw new AirplaneNotFoundException($"The Aircraft with Tail Number '{airplane.TailNumber}' can not be found");
+                    throw new AircraftNotFoundException($"The Aircraft with Tail Number '{airplane.TailNumber}' can not be found");
                 }
 
                 throw;

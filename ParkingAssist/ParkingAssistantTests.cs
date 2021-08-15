@@ -107,7 +107,7 @@ namespace ParkingAssist
             stands.Departure(airplane, DateTime.Now);
             Assert.Equal(100, stands.Empty());
 
-            var exception = Assert.Throws<AirplaneNotFoundException>(() => stands.Departure(airplane, DateTime.Now));
+            var exception = Assert.Throws<AircraftNotFoundException>(() => stands.Departure(airplane, DateTime.Now));
             Assert.Equal("The Aircraft with Tail Number 'TST-0001' can not be found", exception.Message);
         }
     }
